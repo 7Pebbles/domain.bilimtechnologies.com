@@ -1,11 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "server.js": {
-      "maxDuration": 60,
-      "includeFiles": "data/domains.json"
-    }
-  },
   "crons": [
     { "path": "/api/cron/check-domains", "schedule": "0 1 * * *" },
     { "path": "/api/cron/send-reminders", "schedule": "0 2 * * *" }

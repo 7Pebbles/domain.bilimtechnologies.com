@@ -2,19 +2,18 @@ import "dotenv/config";
 import express from "express";
 import nodemailer from "nodemailer";
 import webpush from "web-push";
-import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { checkDomain, daysUntil, DomainValidationError, normalizeDomain, reminderKey, remindersDue, renewalState } from "./lib/domain-service.js";
 import { connectDatabase } from "./lib/database.js";
+import seedDomainData from "./data/domains.json" with { type: "json" };
 
 const root = path.dirname(fileURLToPath(import.meta.url));
-const domainsPath = path.join(root, "data", "domains.json");
 const port = Number(process.env.PORT || 3000);
 const thresholds = (process.env.REMINDER_DAYS || "60,30,14,7,3,1")
   .split(",").map(Number).filter(Number.isFinite).sort((a, b) => b - a);
 
-const seedDomains = JSON.parse(await fs.readFile(domainsPath, "utf8"))
+const seedDomains = seedDomainData
   .map(({ autoRenew: _unused, ...domain }) => domain);
 const database = await connectDatabase({
   url: process.env.TURSO_DATABASE_URL,

@@ -37,7 +37,7 @@ The app is configured for Vercel serverless hosting. Turso stores all persistent
 3. Add SMTP variables to activate email reminders and `ADMIN_USER`/`ADMIN_PASSWORD` to protect the dashboard.
 4. Deploy and attach the custom domain in Vercel. HTTPS is provisioned automatically and enables PWA installation and web push.
 
-Do not expose `TURSO_AUTH_TOKEN`, `VAPID_PRIVATE_KEY`, or `CRON_SECRET` in client-side variables. The supplied `vercel.json` keeps API execution at up to 60 seconds and schedules both cron jobs.
+Do not expose `TURSO_AUTH_TOKEN`, `VAPID_PRIVATE_KEY`, or `CRON_SECRET` in client-side variables. The supplied `vercel.json` schedules both cron jobs.
 
 ### Docker
 
