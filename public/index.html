@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111a17">
+  <meta name="description" content="Domain renewal and website health monitoring for Bilim Technologies">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Domain Watch">
+  <title>Domain Watch | Bilim Technologies</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="Bilim Domain Watch">
+        <span class="brand-mark">B</span>
+        <span><strong>BILIM</strong><small>DOMAIN WATCH</small></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a class="nav-item active" href="#dashboard"><span>01</span>Overview</a>
+        <a class="nav-item" href="#portfolio"><span>02</span>Portfolio</a>
+        <a class="nav-item" href="#reminders"><span>03</span>Reminders</a>
+      </nav>
+      <div class="sidebar-foot">
+        <span class="pulse"></span>
+        <div><strong>Monitor online</strong><small id="last-global-check">Awaiting first scan</small></div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <button class="menu-button" id="menu-button" aria-label="Toggle menu">☰</button>
+        <div class="breadcrumb">Operations <span>/</span> Domains</div>
+        <div class="header-actions">
+          <button class="button ghost" id="email-test">Test email</button>
+          <button class="button add" id="open-add-domain"><span>+</span>Add domain</button>
+          <button class="button primary" id="check-all"><span class="button-dot"></span>Check all domains</button>
+        </div>
+      </header>
+
+      <section class="content" id="dashboard">
+        <div class="hero-row">
+          <div>
+            <p class="eyebrow">Portfolio intelligence</p>
+            <h1>Every domain.<br><em>Under watch.</em></h1>
+          </div>
+          <p class="hero-copy">Renewals, uptime and ownership signals in one place. Built to catch problems before your customers do.</p>
+        </div>
+
+        <div class="metric-grid" aria-label="Portfolio summary">
+          <article class="metric featured">
+            <div class="metric-label">Total domains <span>↗</span></div>
+            <strong id="total-count">—</strong>
+            <small>Managed assets</small>
+          </article>
+          <article class="metric">
+            <div class="metric-label">Active now <span class="status-mark green"></span></div>
+            <strong id="active-count">—</strong>
+            <small id="active-caption">Not yet checked</small>
+          </article>
+          <article class="metric">
+            <div class="metric-label">Renew soon <span class="status-mark amber"></span></div>
+            <strong id="renew-count">—</strong>
+            <small>Within 90 days</small>
+          </article>
+          <article class="metric">
+            <div class="metric-label">Annual cost <span>₹</span></div>
+            <strong id="annual-cost">—</strong>
+            <small>Projected portfolio total</small>
+          </article>
+        </div>
+
+        <section class="portfolio" id="portfolio">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Live registry</p>
+              <h2>Domain portfolio</h2>
+            </div>
+            <div class="toolbar">
+              <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search domains" autocomplete="off"></label>
+              <select id="filter" aria-label="Filter domains">
+                <option value="all">All domains</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="renew-soon">Renew soon</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Domain</th><th>Site status</th><th>Renewal date</th><th>Annual cost</th><th><span class="sr-only">Actions</span></th></tr></thead>
+              <tbody id="domain-list"><tr><td colspan="5" class="loading">Loading domain portfolio…</td></tr></tbody>
+            </table>
+          </div>
+          <div class="table-foot"><span id="result-count">0 domains</span><span>Checks include DNS + HTTP response</span></div>
+        </section>
+
+        <section class="reminder-panel" id="reminders">
+          <div>
+            <p class="eyebrow">Automatic safeguards</p>
+            <h2>Renewal reminders,<br>delivered on time.</h2>
+            <div class="notification-tools">
+              <button class="button alert-button" id="push-toggle" type="button">Enable notifications</button>
+              <button class="button install-button" id="install-app" type="button" hidden>Install app</button>
+              <small id="push-status">Get renewal and downtime alerts on this device.</small>
+            </div>
+          </div>
+          <div class="reminder-steps">
+            <div><span>60</span><p><strong>Early notice</strong>Prepare the renewal budget.</p></div>
+            <div><span>30</span><p><strong>Action notice</strong>Confirm ownership and payment.</p></div>
+            <div><span>07</span><p><strong>Urgent notice</strong>Renew before service risk.</p></div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+  <dialog class="domain-dialog" id="domain-dialog">
+    <form id="domain-form">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">New purchase</p>
+          <h2>Add a domain</h2>
+        </div>
+        <button class="dialog-close" type="button" id="close-add-domain" aria-label="Close">×</button>
+      </div>
+      <p class="dialog-copy">Add renewal details now and Domain Watch will monitor the site automatically.</p>
+      <label class="field full"><span>Domain name</span><input name="name" type="text" placeholder="example.com" inputmode="url" autocapitalize="none" autocomplete="off" required></label>
+      <div class="form-grid">
+        <label class="field"><span>Purchase date</span><input name="registeredAt" type="date" required></label>
+        <label class="field"><span>Renewal date</span><input name="expiresAt" type="date" required></label>
+        <label class="field"><span>Annual price</span><div class="price-input"><b>₹</b><input name="price" type="number" min="1" step="0.01" placeholder="899.00" required></div></label>
+      </div>
+      <p class="form-error" id="domain-form-error" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="button" type="button" id="cancel-add-domain">Cancel</button>
+        <button class="button primary" type="submit" id="save-domain">Add to portfolio</button>
+      </div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

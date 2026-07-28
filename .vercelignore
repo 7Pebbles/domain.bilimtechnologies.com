@@ -1,0 +1,8 @@
+.env
+.git/
+.vercel/
+node_modules/
+deploy/
+test/
+data/runtime.json
+npm-debug.log*
