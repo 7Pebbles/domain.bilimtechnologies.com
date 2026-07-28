@@ -10,6 +10,14 @@ const pushStatus = document.querySelector("#push-status");
 const installButton = document.querySelector("#install-app");
 let serviceWorkerRegistration;
 let installPrompt;
+
+async function responseJson(response) {
+  const type = response.headers.get("content-type") || "";
+  if (!type.includes("application/json")) {
+    throw new Error(response.ok ? "The server returned an invalid response" : `Server request failed (HTTP ${response.status})`);
+  }
+  return response.json();
+}
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 const dateFormat = new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 
@@ -215,7 +223,7 @@ pushButton.addEventListener("click", async () => {
       const permission = await Notification.requestPermission();
       if (permission !== "granted") throw new Error("Notification permission was not granted");
       const configResponse = await fetch("/api/push/config");
-      const config = await configResponse.json();
+      const config = await responseJson(configResponse);
       if (!configResponse.ok || !config.configured) throw new Error(config.error || "Push notifications are not configured");
       const subscription = await serviceWorkerRegistration.pushManager.subscribe({
         userVisibleOnly: true,
@@ -227,7 +235,7 @@ pushButton.addEventListener("click", async () => {
         body: JSON.stringify(subscription)
       });
       if (!response.ok) {
-        const result = await response.json();
+        const result = await responseJson(response);
         await subscription.unsubscribe();
         throw new Error(result.error || "Could not enable notifications");
       }
